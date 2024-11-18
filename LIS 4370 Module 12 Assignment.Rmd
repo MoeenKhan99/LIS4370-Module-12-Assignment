@@ -1,0 +1,59 @@
+---
+title: 'Final Project: Titanic Survival Prediction'
+author: "Moeen Khan"
+date: "2024-11-17"
+output:
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction
+
+This document provides an overview of the main functions being developed for the Titanic survival prediction project. We aim to predict the likelihood of passenger survival using machine learning models, including GLM, Decision Tree, and KNN.
+
+## Main Functions
+
+### 1. `clean_data()`
+
+This function preprocesses the Titanic dataset by: - Handling missing values. - Encoding categorical variables. - Normalizing numerical features.
+
+```{cleaning}
+
+clean_data <- function(data) {
+  data <- na.omit(data)
+  data$Sex <- as.numeric(factor(data$Sex))
+  data$Class <- as.numeric(factor(data$Class))
+  return(data)
+}
+
+```
+
+## fit_glm_model()
+
+This function builds a generalized linear model (GLM) for predicting survival.
+
+```{models}
+
+fit_glm_model <- function(data) {
+  model <- glm(Survived ~ Class + Sex + Age, data = data, family = binomial)
+  return(model)
+}
+
+```
+
+## predict_survival()
+
+This function generates survival predictions for new data using the trained GLM.
+
+```{predict_survival}
+
+predict_survival <- function(model, new_data) {
+  predictions <- predict(model, new_data, type = "response")
+  return(ifelse(predictions > 0.5, 1, 0))
+}
+
+```
